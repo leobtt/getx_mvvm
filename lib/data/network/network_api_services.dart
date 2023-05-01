@@ -36,7 +36,10 @@ class NetworkApiServices extends BaseApiService {
 
     dynamic responseJson;
     try {
-      final response = await http.post(Uri.parse(url), body: jsonEncode(data));
+      final response = await http.post(
+        Uri.parse(url),
+        body: data,
+      );
       responseJson = returnResponse(response);
     } on SocketException {
       throw InternetException();
@@ -48,12 +51,15 @@ class NetworkApiServices extends BaseApiService {
   }
 
   dynamic returnResponse(http.Response response) {
+    if (kDebugMode) {
+      print('response error message ${response.body}');
+    }
     switch (response.statusCode) {
       case 200:
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 400:
-        throw InvalidUrlException();
+        throw InvalidUrlException('');
       default:
         throw FetchDataException(response.statusCode.toString());
     }

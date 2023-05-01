@@ -5,9 +5,9 @@ import 'package:getx_mvvm/res/colors/colors.dart';
 
 class Utils {
   static void fieldFocusChange(
-      BuildContext context, FocusNode current, FocusNode nextFocus) {
-    current.unfocus();
-    FocusScope.of(context).requestFocus(nextFocus);
+      BuildContext context, Rx<FocusNode> current, Rx<FocusNode> nextFocus) {
+    current.value.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus.value);
   }
 
   static toastMessage(String message) {

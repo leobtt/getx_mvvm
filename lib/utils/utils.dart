@@ -13,7 +13,7 @@ class Utils {
   static toastMessage(String message) {
     Fluttertoast.showToast(
       msg: message,
-      backgroundColor: AppColor.blackColor,
+      backgroundColor: AppColors.blackColor,
       gravity: ToastGravity.BOTTOM,
       toastLength: Toast.LENGTH_LONG,
     );
@@ -22,7 +22,7 @@ class Utils {
   static toastMessageCenter(String message) {
     Fluttertoast.showToast(
       msg: message,
-      backgroundColor: AppColor.blackColor,
+      backgroundColor: AppColors.blackColor,
       gravity: ToastGravity.CENTER,
       toastLength: Toast.LENGTH_LONG,
     );

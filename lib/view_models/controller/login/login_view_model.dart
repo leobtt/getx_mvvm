@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:getx_mvvm/models/login/user_model.dart';
 import 'package:getx_mvvm/repository/login_repository/login_repository.dart';
+import 'package:getx_mvvm/res/router/routes_name.dart';
 import 'package:getx_mvvm/utils/utils.dart';
+import 'package:getx_mvvm/view_models/controller/user_preference/user_preference_view_model.dart';
 
 class LoginViewModel extends GetxController {
   final _api = LoginRepository();
+
+  final userPreference = UserPreference();
 
   final emailController = TextEditingController().obs;
   final passwordController = TextEditingController().obs;
@@ -21,7 +26,12 @@ class LoginViewModel extends GetxController {
         'email': emailController.value.text,
         'password': passwordController.value.text,
       };
-      await _api.loginApi(params);
+
+      var data = await _api.loginApi(params);
+      await userPreference.saveUser(UserModel.fromJson(data));
+
+      Get.toNamed(RouteName.homeView);
+
       Utils.snackBar('Login', 'Login successfully');
       loading.value = false;
     } catch (err, stackTrace) {

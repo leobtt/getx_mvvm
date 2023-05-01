@@ -6,14 +6,17 @@ class UserPreference {
   Future<bool> saveUser(UserModel responseModel) async {
     SharedPreferences store = await SharedPreferences.getInstance();
     store.setString('token', responseModel.token.toString());
+    store.setBool('isLogin', responseModel.isLogin!);
     return true;
   }
 
   Future<UserModel> getUser() async {
     SharedPreferences store = await SharedPreferences.getInstance();
     String? token = store.getString('token');
+    bool? isLogin = store.getBool('isLogin');
     return UserModel(
       token: token,
+      isLogin: isLogin,
     );
   }
 

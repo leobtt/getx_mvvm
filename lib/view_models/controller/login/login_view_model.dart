@@ -28,7 +28,8 @@ class LoginViewModel extends GetxController {
       };
 
       var data = await _api.loginApi(params);
-      await userPreference.saveUser(UserModel.fromJson(data));
+      UserModel userModel = UserModel(token: data["token"], isLogin: true);
+      await userPreference.saveUser(userModel);
 
       Get.toNamed(RouteName.homeView);
 

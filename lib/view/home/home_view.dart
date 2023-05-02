@@ -49,14 +49,15 @@ class _HomeViewState extends State<HomeView> {
           case Status.error:
             if (homeController.error.value == 'No internet') {
               return InternetExceptionsWidget(onPress: () {
-                homeController.userListApi();
+                homeController.refreshApi();
               });
+            } else {
+              return Center(
+                child: Text(
+                  homeController.error.toString(),
+                ),
+              );
             }
-            return Center(
-              child: Text(
-                homeController.error.toString(),
-              ),
-            );
           case Status.completed:
             return ListView.builder(
               itemCount: homeController.userList.value.data!.length,

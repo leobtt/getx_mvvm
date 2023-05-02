@@ -15,11 +15,8 @@ class HomeController extends GetxController {
   void setUserList(UserListModel value) => userList.value = value;
   void setError(String value) => error.value = value;
 
-  void userListApi() async {
+  void userListApi({bool mounted = true}) async {
     try {
-      if (rxRequestStatus.value != Status.loading) {
-        setRxRequestStatus(Status.loading);
-      }
       final data = await _api.userListApi();
       setRxRequestStatus(Status.completed);
       setUserList(data);
@@ -28,5 +25,10 @@ class HomeController extends GetxController {
       setError(e.toString());
       Utils.snackBar("Error", e.toString());
     }
+  }
+
+  void refreshApi() async {
+    setRxRequestStatus(Status.loading);
+    userListApi();
   }
 }

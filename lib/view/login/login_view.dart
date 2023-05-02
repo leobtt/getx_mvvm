@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_mvvm/res/components/round_button.dart';
 import 'package:getx_mvvm/utils/utils.dart';
+import 'package:getx_mvvm/view/login/widgets/input_email_widget.dart';
+import 'package:getx_mvvm/view/login/widgets/input_password_widget.dart';
+import 'package:getx_mvvm/view/login/widgets/login_button_widget.dart';
 import 'package:getx_mvvm/view_models/controller/login/login_view_model.dart';
 
 class LoginView extends StatefulWidget {
@@ -31,61 +34,16 @@ class _LoginViewState extends State<LoginView> {
           children: [
             Form(
               key: _formKey,
-              child: Column(children: [
-                TextFormField(
-                  controller: loginVM.emailController.value,
-                  focusNode: loginVM.emailFocusNode.value,
-                  decoration: InputDecoration(
-                    hintText: 'email_hint'.tr,
-                    border: const OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return Utils.snackBar('Email', 'email_validator'.tr);
-                    }
-                  },
-                  onFieldSubmitted: (value) {
-                    Utils.fieldFocusChange(
-                      context,
-                      loginVM.emailFocusNode,
-                      loginVM.passwordFocusNode,
-                    );
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: loginVM.passwordController.value,
-                  focusNode: loginVM.passwordFocusNode.value,
-                  obscureText: true,
-                  obscuringCharacter: '*',
-                  decoration: InputDecoration(
-                    hintText: 'password_hint'.tr,
-                    border: const OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return Utils.snackBar(
-                        'password_name'.tr,
-                        'password_validator'.tr,
-                      );
-                    }
-                  },
-                ),
+              child: Column(children: const [
+                InputEmailWidget(),
+                SizedBox(height: 20),
+                InputPasswordWidget(),
               ]),
             ),
             const SizedBox(height: 40),
-            Obx(
-              () => RoundButton(
-                loading: loginVM.loading.value,
-                width: 200,
-                title: 'login'.tr,
-                onPress: () {
-                  if (_formKey.currentState!.validate()) {
-                    loginVM.loginApi();
-                  }
-                },
-              ),
-            ),
+            LoginButtonWidget(
+              formKey: _formKey,
+            )
           ],
         ),
       ),
